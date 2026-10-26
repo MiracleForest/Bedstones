@@ -13,11 +13,29 @@ Use the [issue templates](https://github.com/LiteLDev/Bedstones/issues/new/choos
 - steps to reproduce;
 - the relevant part of the server console or `logs/latest.log`.
 
+## Development setup
+
+See [Development](#development) below. [AGENTS.md](AGENTS.md) is the developer guide. It covers the layout of the code, the feature units and the contracts between them, the registration macros and the rules for working with Bedrock internals. Please read it before changing anything under `src/`.
+
+## Pull requests
+
+1. Fork the repository and create a branch from `main`.
+2. Keep each pull request focused on one change. Describe what it does and how you tested it.
+3. Follow the existing style: C++20, the provided `.clang-format` and `.editorconfig`, English in code and comments.
+4. User-facing text goes through `bs::tr` / `bs::trFor` / `bs::client::ctr` with entries in **both** `assets/lang/en_US/` and `assets/lang/zh_CN/`.
+5. Logic in `src/core` must stay free of game headers and come with unit tests in `tests/`:
+   `xmake build -y bs-tests; xmake run bs-tests`.
+6. Gameplay changes come with selftests (`BS_REGISTER_SELFTEST`) and an end-to-end scenario in [tools/e2e](tools/e2e/README.md). Run the relevant scenarios, and `tools/e2e/server/run.ps1 -Scenario full` for anything that touches shared code.
+7. Both platforms must build: `pwsh tools/build.ps1 -Target all -Tests`. CI must pass before a pull request is merged.
+8. Never copy code or assets from the Java Waystones repository. It is a behaviour reference only.
+
+Commit messages use the imperative mood ("Add warp plate cooldown", not "Added …"). Update [CHANGELOG.md](CHANGELOG.md) under *Unreleased* for user-visible changes.
+
 ## Development
 
 ### Building
 
-You need Windows x64, [xmake](https://xmake.io), Visual Studio Build Tools and LLVM (`clang-cl`).
+You need Windows x64, [xmake](https://xmake.io), Visual Studio Build Tools with MSVC 14.4x or newer, and LLVM (`clang-cl`).
 
 ```powershell
 git config --global core.longpaths true
@@ -40,7 +58,7 @@ One code base builds both the dedicated-server mod and the client mod (`--target
   ffmpeg -f concat -safe 0 -i frames.txt -vf "trim=0.3:7.8,setpts=PTS-STARTPTS,fps=12,scale=720:405" -c:v libwebp -quality 42 -loop 0 teleport.webp   # README
   ```
 
-### Architecture and behaviour reference
+### How it works
 
 - [AGENTS.md](AGENTS.md) is the developer guide: the layout of the code, the feature units and the contracts between them, the registration macros and the rules for working with Bedrock internals. Please read it before changing anything under `src/`.
 - [docs/SPEC.md](docs/SPEC.md) describes the Waystones behaviour Bedstones reproduces (blocks, items, mechanics, every screen, configuration, commands, strings).
@@ -49,20 +67,6 @@ One code base builds both the dedicated-server mod and the client mod (`--target
 ### Maintainers
 
 [@futrime (Zijian Zhang)](https://github.com/futrime)
-
-## Pull requests
-
-1. Fork the repository and create a branch from `main`.
-2. Keep each pull request focused on one change. Describe what it does and how you tested it.
-3. Follow the existing style: C++20, the provided `.clang-format` and `.editorconfig`, English in code and comments.
-4. User-facing text goes through `bs::tr` / `bs::trFor` / `bs::client::ctr` with entries in **both** `assets/lang/en_US/` and `assets/lang/zh_CN/`.
-5. Logic in `src/core` must stay free of game headers and come with unit tests in `tests/`:
-   `xmake build -y bs-tests; xmake run bs-tests`.
-6. Gameplay changes come with selftests (`BS_REGISTER_SELFTEST`) and an end-to-end scenario in [tools/e2e](tools/e2e/README.md). Run the relevant scenarios, and `tools/e2e/server/run.ps1 -Scenario full` for anything that touches shared code.
-7. Both platforms must build: `pwsh tools/build.ps1 -Target all -Tests`. CI must pass before a pull request is merged.
-8. Never copy code or assets from the Java Waystones repository. It is a behaviour reference only.
-
-Commit messages use the imperative mood ("Add warp plate cooldown", not "Added …"). Update [CHANGELOG.md](CHANGELOG.md) under *Unreleased* for user-visible changes.
 
 ## Releasing (maintainers)
 
@@ -75,4 +79,4 @@ Commit messages use the imperative mood ("Add warp plate cooldown", not "Added �
 
 ## License
 
-By contributing you agree that your contributions are licensed under the [LGPL-3.0](COPYING.LESSER), the license of this project.
+By contributing you agree that your contributions are licensed under the [LGPL-3.0-or-later](COPYING.LESSER), the license of this project.

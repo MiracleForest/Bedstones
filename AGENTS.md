@@ -217,7 +217,8 @@ Deploying by hand: copy `bin/server/Bedstones` to `<BDS>/plugins/`, or `bin/clie
 - Every `src/core` change comes with gtest coverage in `tests/`; every feature comes with selftests
   and an e2e scenario.
 - Commit in small, buildable steps. Both platforms must build (`pwsh tools/build.ps1 -Target all`).
-- Commit / PR titles: `U<n>: <summary>` (unit id from the plan), PR into `main`.
+- Commit / PR titles in the imperative mood, as in [CONTRIBUTING.md](CONTRIBUTING.md) ("Add warp plate cooldown"),
+  PR into `main`. Work on a unit of the plan may prefix its title with the unit id (`U<n>: <summary>`).
 
 ## Out of scope
 

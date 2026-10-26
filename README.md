@@ -2,7 +2,7 @@
 
 <img src="docs/logo.png" alt="" width="128" align="right">
 
-[![Release](https://img.shields.io/github/v/release/LiteLDev/Bedstones)](https://github.com/LiteLDev/Bedstones/releases/latest)
+[![Release](https://img.shields.io/github/v/release/LiteLDev/Bedstones)](https://github.com/LiteLDev/Bedstones/releases)
 [![License](https://img.shields.io/github/license/LiteLDev/Bedstones)](COPYING.LESSER)
 
 Waystones for Minecraft Bedrock. Build a waystone wherever you like to come back to, visit it once, and from then on warp to it from any other waystone, scroll or warp stone. Bedstones brings BlayTheNinth's Java mod [Waystones](https://www.curseforge.com/minecraft/mc-mods/waystones) to Bedrock, for dedicated servers and single-player worlds.
@@ -22,9 +22,9 @@ Waystones for Minecraft Bedrock. Build a waystone wherever you like to come back
 
 ## Install
 
-You need Minecraft Bedrock **1.26.51** for Windows (x64) with LeviLamina **26.51.x** (on a client, installed through [LeviLauncher](https://github.com/LiteLDev/LeviLauncher)).
+You need Minecraft Bedrock Edition **1.26.51** for Windows (x64) with LeviLamina **26.51.x** (on a client, installed through [LeviLauncher](https://github.com/LiteLDev/LeviLauncher)).
 
-With [lip](https://github.com/futrime/lip):
+With [lip](https://github.com/LiteLDev/lip):
 
 ```sh
 lip install github.com/LiteLDev/Bedstones           # dedicated server
@@ -110,8 +110,8 @@ The settings are JSON files in the mod's `config/` folder (`plugins/Bedstones/co
 
 More screenshots and videos: https://levimc.org/mods/github.com/LiteLDev/Bedstones/?tab=gallery
 
-Building it yourself or contributing? See [CONTRIBUTING.md](CONTRIBUTING.md). Bedstones speaks English and Simplified Chinese.
+Building it yourself or contributing? See [CONTRIBUTING.md](CONTRIBUTING.md). In-game text is in English and Simplified Chinese.
 
 ## License
 
-[LGPL-3.0](COPYING.LESSER) © 2026 Zijian Zhang. Bedstones copies no code or assets from Waystones and is not affiliated with Mojang Studios, Microsoft, or BlayTheNinth.
+[LGPL-3.0-or-later](COPYING.LESSER) © LeviMC. Bedstones copies no code or assets from Waystones and is not affiliated with Mojang Studios, Microsoft, or BlayTheNinth.
