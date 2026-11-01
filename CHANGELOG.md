@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- The repository moved to [MiracleForest/Bedstones](https://github.com/MiracleForest/Bedstones); links point there now. The lip package path stays `github.com/LiteLDev/Bedstones`.
+- The repository moved to [MiracleForest/Bedstones](https://github.com/MiracleForest/Bedstones); links point there now.
+- The lip package is now `github.com/MiracleForest/Bedstones`, and the [LeviMC Mods page](https://levimc.org/mods/github.com/MiracleForest/Bedstones/) moves with it. Installing by the new path needs lip 0.35.0 or newer. To move an existing install, run `lip update` with a lip that supports renamed packages, or `lip uninstall github.com/LiteLDev/Bedstones` and then `lip install github.com/MiracleForest/Bedstones` (add `#client` to both on a client). The config in `plugins/Bedstones/config/` (`mods/Bedstones/config/` on a client) is kept. Older versions stay installable at `github.com/LiteLDev/Bedstones`.
 
 ## [0.1.1] - 2026-10-24
 

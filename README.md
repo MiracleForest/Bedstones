@@ -27,8 +27,8 @@ You need Minecraft Bedrock Edition **1.26.51** for Windows (x64) with LeviLamina
 With [lip](https://github.com/LiteLDev/lip):
 
 ```sh
-lip install github.com/LiteLDev/Bedstones           # dedicated server
-lip install github.com/LiteLDev/Bedstones#client    # client
+lip install github.com/MiracleForest/Bedstones           # dedicated server
+lip install github.com/MiracleForest/Bedstones#client    # client
 ```
 
 Or download the zip from the [latest release](https://github.com/MiracleForest/Bedstones/releases/latest) and extract it next to `LeviLamina/`:
@@ -108,7 +108,7 @@ The settings are JSON files in the mod's `config/` folder (`plugins/Bedstones/co
 
 ## More
 
-More screenshots and videos: https://levimc.org/mods/github.com/LiteLDev/Bedstones/?tab=gallery
+More screenshots and videos: https://levimc.org/mods/github.com/MiracleForest/Bedstones/?tab=gallery
 
 Building it yourself or contributing? See [CONTRIBUTING.md](CONTRIBUTING.md). In-game text is in English and Simplified Chinese.
 
