@@ -4,7 +4,7 @@ Thanks for helping! Bug reports, ideas and pull requests are all welcome.
 
 ## Reporting bugs and requesting features
 
-Use the [issue templates](https://github.com/LiteLDev/Bedstones/issues/new/choose). For bugs, include:
+Use the [issue templates](https://github.com/MiracleForest/Bedstones/issues/new/choose). For bugs, include:
 
 - the Bedstones version;
 - the LeviLamina version;
@@ -49,7 +49,7 @@ One code base builds both the dedicated-server mod and the client mod (`--target
 
 - Unit tests (`src/core`): `xmake build -y bs-tests; xmake run bs-tests`.
 - In-game selftests: `/waystones selftest ["glob"]` (operator or server console).
-- End-to-end: [tools/e2e](tools/e2e/README.md) runs the real server and client, headless through [LeviHeadlessInput](https://github.com/LiteLDev/LeviHeadlessInput). The `showcase` client scenario re-shoots the screenshots and videos in [docs/showcase](docs/showcase/) (listed in `showcase.json` for the LeviMC Mods gallery). It saves PNGs and the teleport clip's frames (with their real durations) to `tools/e2e/client/out/showcase/`; encode them with ffmpeg, for example:
+- End-to-end: [tools/e2e](tools/e2e/README.md) runs the real server and client, headless through [LeviHeadlessInput](https://github.com/LiteLDev/BeDD). The `showcase` client scenario re-shoots the screenshots and videos in [docs/showcase](docs/showcase/) (listed in `showcase.json` for the LeviMC Mods gallery). It saves PNGs and the teleport clip's frames (with their real durations) to `tools/e2e/client/out/showcase/`; encode them with ffmpeg, for example:
 
   ```powershell
   ffmpeg -i waystone.png -c:v libwebp -quality 85 docs/showcase/waystone.webp
