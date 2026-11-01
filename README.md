@@ -2,8 +2,8 @@
 
 <img src="docs/logo.png" alt="" width="128" align="right">
 
-[![Release](https://img.shields.io/github/v/release/LiteLDev/Bedstones)](https://github.com/LiteLDev/Bedstones/releases)
-[![License](https://img.shields.io/github/license/LiteLDev/Bedstones)](COPYING.LESSER)
+[![Release](https://img.shields.io/github/v/release/MiracleForest/Bedstones)](https://github.com/MiracleForest/Bedstones/releases)
+[![License](https://img.shields.io/github/license/MiracleForest/Bedstones)](COPYING.LESSER)
 
 Waystones for Minecraft Bedrock. Build a waystone wherever you like to come back to, visit it once, and from then on warp to it from any other waystone, scroll or warp stone. Bedstones brings BlayTheNinth's Java mod [Waystones](https://www.curseforge.com/minecraft/mc-mods/waystones) to Bedrock, for dedicated servers and single-player worlds.
 
@@ -31,7 +31,7 @@ lip install github.com/LiteLDev/Bedstones           # dedicated server
 lip install github.com/LiteLDev/Bedstones#client    # client
 ```
 
-Or download the zip from the [latest release](https://github.com/LiteLDev/Bedstones/releases/latest) and extract it next to `LeviLamina/`:
+Or download the zip from the [latest release](https://github.com/MiracleForest/Bedstones/releases/latest) and extract it next to `LeviLamina/`:
 
 | Where | Zip | Folder |
 | --- | --- | --- |
