@@ -97,6 +97,23 @@ target("Bedstones")
     else
         add_defines("BS_SERVER=1")
     end
+    -- xmake-requires.lock is not tracked: tools/build.ps1 copies locks/<line>.lock over it. A plain
+    -- `xmake` run without that copy resolves the packages unpinned, so say so.
+    on_config(function (target)
+        import("core.project.config")
+        local major, minor = (config.get("levilamina") or ""):match("^(%d+)%.(%d+)%.")
+        local wanted = path.join(os.projectdir(), "locks", string.format("%s_%s.lock", major, minor))
+        local lockfile = path.join(os.projectdir(), "xmake-requires.lock")
+        local function load(file)
+            return os.isfile(file) and io.readfile(file):gsub("\r", "") or nil
+        end
+        local want, have = load(wanted), load(lockfile)
+        if not want then
+            cprint("${color.warning}warning: no lock file %s for LeviLamina %s; packages are not pinned", wanted, config.get("levilamina"))
+        elseif have ~= want then
+            cprint("${color.warning}warning: xmake-requires.lock is not %s; packages may not be the pinned ones. Run tools/build.ps1, or copy that file to xmake-requires.lock and configure again", path.relative(wanted, os.projectdir()))
+        end
+    end)
     -- Assemble bin/<target_type>/Bedstones/{dll,pdb,manifest.json,lang/,packs/}.
     after_build(function (target)
         import("core.project.config")

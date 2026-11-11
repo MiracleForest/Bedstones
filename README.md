@@ -29,9 +29,9 @@ You need Minecraft Bedrock Edition for Windows (x64) or the Bedrock Dedicated Se
 | 1.26.60 | 26.60.x | `26_60`, and the default |
 | 1.26.51 | 26.51.x | `26_51` |
 
-In LeviLauncher, install Bedstones from the **LeviMC Mods** page; it offers the variants above, and the default is the newest line.
+On a client, install Bedstones in LeviLauncher from the **LeviMC Mods** page; it offers the variants above, and the default is the newest line.
 
-With [lip](https://github.com/LiteLDev/lip) 0.40.0 or later, on a dedicated server or a client alike:
+On a dedicated server, use [lip](https://github.com/LiteLDev/lip) 0.40.0 or later (lip manages servers only; on a client, use LeviLauncher):
 
 ```sh
 lip install github.com/MiracleForest/Bedstones           # the newest line (26.60)
