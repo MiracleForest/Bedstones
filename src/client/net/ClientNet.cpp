@@ -102,9 +102,9 @@ void onLeaveWorld(std::function<void()> fn) { leaveListeners().push_back(std::mo
 
 // ---- packet handlers (client thread) --------------------------------------------------------------
 
-class WelcomeHandler : public ll::network::PacketHandlerBase<WelcomeHandler, WelcomePacket> {
+class WelcomeHandler : public bs::net::PacketHandler<WelcomeHandler, WelcomePacket> {
 public:
-    void handlePacket(NetworkIdentifier const&, NetEventCallback& cb, WelcomePacket const& p) const {
+    void onPacket(NetworkIdentifier const&, NetEventCallback& cb, WelcomePacket const& p) const {
         if (!fromServer(cb)) return;
         if (!p.valid() || p.body.value("incompatible", false)) {
             if (!gState.incompatible) {
@@ -119,9 +119,9 @@ public:
     }
 };
 
-class ScreenOpenHandler : public ll::network::PacketHandlerBase<ScreenOpenHandler, ScreenOpenPacket> {
+class ScreenOpenHandler : public bs::net::PacketHandler<ScreenOpenHandler, ScreenOpenPacket> {
 public:
-    void handlePacket(NetworkIdentifier const&, NetEventCallback& cb, ScreenOpenPacket const& p) const {
+    void onPacket(NetworkIdentifier const&, NetEventCallback& cb, ScreenOpenPacket const& p) const {
         if (!fromServer(cb) || !p.valid()) return;
         ServerScreen s;
         s.session = p.body.value("session", 0u);
@@ -133,9 +133,9 @@ public:
     }
 };
 
-class ScreenUpdateHandler : public ll::network::PacketHandlerBase<ScreenUpdateHandler, ScreenUpdatePacket> {
+class ScreenUpdateHandler : public bs::net::PacketHandler<ScreenUpdateHandler, ScreenUpdatePacket> {
 public:
-    void handlePacket(NetworkIdentifier const&, NetEventCallback& cb, ScreenUpdatePacket const& p) const {
+    void onPacket(NetworkIdentifier const&, NetEventCallback& cb, ScreenUpdatePacket const& p) const {
         if (!fromServer(cb) || !p.valid() || !gState.screen) return;
         if (p.body.value("session", 0u) != gState.screen->session) return;
         gState.screen->model = p.body.value("model", nlohmann::json::object());
@@ -143,9 +143,9 @@ public:
     }
 };
 
-class ScreenCloseHandler : public ll::network::PacketHandlerBase<ScreenCloseHandler, ScreenClosePacket> {
+class ScreenCloseHandler : public bs::net::PacketHandler<ScreenCloseHandler, ScreenClosePacket> {
 public:
-    void handlePacket(NetworkIdentifier const&, NetEventCallback& cb, ScreenClosePacket const& p) const {
+    void onPacket(NetworkIdentifier const&, NetEventCallback& cb, ScreenClosePacket const& p) const {
         if (!fromServer(cb) || !p.valid() || !gState.screen) return;
         if (p.body.value("session", 0u) != gState.screen->session) return;
         gState.screen.reset();
@@ -153,9 +153,9 @@ public:
     }
 };
 
-class ServerMessageHandlerImpl : public ll::network::PacketHandlerBase<ServerMessageHandlerImpl, ServerMessagePacket> {
+class ServerMessageHandlerImpl : public bs::net::PacketHandler<ServerMessageHandlerImpl, ServerMessagePacket> {
 public:
-    void handlePacket(NetworkIdentifier const&, NetEventCallback& cb, ServerMessagePacket const& p) const {
+    void onPacket(NetworkIdentifier const&, NetEventCallback& cb, ServerMessagePacket const& p) const {
         if (!fromServer(cb) || !p.valid()) return;
         auto channel = p.body.value("channel", std::string{});
         auto data    = p.body.value("data", nlohmann::json{});

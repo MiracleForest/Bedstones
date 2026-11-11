@@ -37,6 +37,7 @@
 #include "game/Blocks.h"
 #include "game/Effects.h"
 #include "game/Ids.h"
+#include "game/Items.h"
 #include "game/Waystones.h"
 #include "mod/Config.h"
 #include "mod/I18n.h"
@@ -876,7 +877,7 @@ void WarpPlates::install() {
             auto const& tool = player.getSelectedItem();
             BreakInfo   info;
             info.creative = player.isCreative();
-            info.pickaxe  = !tool.isNull() && tool.hasTag(ItemTag{HashedString("minecraft:is_pickaxe")});
+            info.pickaxe  = !tool.isNull() && game::hasTag(tool, ItemTag{HashedString("minecraft:is_pickaxe")});
             info.silk     = !tool.isNull() && EnchantUtils::hasEnchant(Enchant::Type::SilkTouch, tool);
             noteBreak(game::globalPos(region, ev.pos()), info);
         },

@@ -1,9 +1,18 @@
 # AGENTS.md
 
 Bedstones is a Bedrock port of the *behaviour* of the Java mod **Waystones 21.1.46** (BlayTheNinth),
-written as a LeviLamina native mod. It targets MC **1.26.51** / LeviLamina **26.51.7**, builds with
-xmake + clang-cl on Windows x64, and runs on **both** the dedicated server (BDS) and the client
-(local worlds through LeviLauncher). One code base, two builds (`--target_type=server|client`).
+written as a LeviLamina native mod. It builds with xmake + clang-cl on Windows x64, and runs on
+**both** the dedicated server (BDS) and the client (local worlds through LeviLauncher). One code
+base, two builds (`--target_type=server|client`) for every supported LeviLamina line:
+
+| Line | Minecraft | lip variant | Built against | Lock file |
+| --- | --- | --- | --- | --- |
+| 26.60.x | 1.26.60 | `26_60`, the default, and `client` (client entry) | `--levilamina=26.60.6` (the default) | `locks/26_60.lock` |
+| 26.51.x | 1.26.51 | `26_51` | `--levilamina=26.51.7` | `locks/26_51.lock` |
+
+`--levilamina` (`tools/build.ps1 -LeviLamina`) picks the line; the build defines `BS_LL_VERSION`
+(`2651`, `2660`) for source guards. Guard a difference with `#if BS_LL_VERSION >= 2660`, keep the
+guard small, never drop the older path, and prefer one unguarded path when an API works on both.
 
 The behaviour reference is `docs/SPEC.md` (blocks, items, mechanics, every screen, config,
 commands, strings). Read it before working on a unit.
@@ -173,7 +182,8 @@ pwsh -NoProfile -File tools/e2e/client/run.ps1 -Scenario smoke       # headless 
 
 - `git config --global core.longpaths true` is required (long LeviLamina header paths).
 - `clang-cl` must be on PATH (`C:\Program Files\LLVM\bin`).
-- `xmake-requires.lock` is committed; it holds entries for both target types.
+- `xmake-requires.lock` is generated, not tracked: `tools/build.ps1` copies `locks/<variant>.lock`
+  of the line being built over it.
 - In game: `/waystones selftest ["glob"]` (op or server console). Quote globs: `waystones selftest "sharestone.*"`.
   Output lines: `SELFTEST PASS <name>`, `SELFTEST FAIL <name>: <reason>`, `SELFTEST DONE pass=<N> fail=<M>`.
 - Log contract: `Bedstones enabled` on enable; `Bedstones world ready` when a world is available.
@@ -182,13 +192,14 @@ pwsh -NoProfile -File tools/e2e/client/run.ps1 -Scenario smoke       # headless 
   waits for them. Headless input (LeviHeadlessInput) is the default: the game runs in the
   background and never takes the real mouse/keyboard.
 
-Deploying by hand: copy `bin/server/Bedstones` to `<BDS>/plugins/`, or `bin/client/Bedstones` to
-`%APPDATA%\levilauncher.exe\versions\1.26.51.01\mods\`.
+Deploying by hand: copy `bin/server/Bedstones` to `<BDS>/mods/` (`<BDS>/plugins/` on LeviLamina
+26.51), or `bin/client/Bedstones` to `%APPDATA%\levilauncher.exe\versions\<version>\mods\`.
 
 ## Bedrock / LeviLamina rules (learned the hard way)
 
-- Headers: `%LOCALAPPDATA%\.xmake\packages\l\levilamina\26.51.7\<hash>\include\{ll,mc}` (one hash per
-  target type). Check them before guessing a name or signature.
+- Headers: `%LOCALAPPDATA%\.xmake\packages\l\levilamina\<version>\<hash>\include\{ll,mc}` (one hash per
+  target type, one tree per line). Check them before guessing a name or signature, and diff the
+  trees of two lines before assuming an API is the same on both.
 - Callable: `MCAPI`, `MCFOLD`, `MCTAPI`, unmarked `virtual`. **Never** `MCNAPI`. `ll::TypedStorage`
   members are fields (`.get()`, `*`, `->`). Packets without an MCAPI constructor are created with
   `MinecraftPackets::createPacket(MinecraftPacketIds::X)` + `static_cast`; send with `pkt.sendTo(player)`.

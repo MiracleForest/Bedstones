@@ -41,9 +41,31 @@ You need Windows x64, [xmake](https://xmake.io), Visual Studio Build Tools with 
 git config --global core.longpaths true
 pwsh tools/build.ps1 -Target all -Tests     # bin/server/Bedstones/ and bin/client/Bedstones/, plus unit tests
 pwsh tools/build.ps1 -Target client         # one platform only
+pwsh tools/build.ps1 -LeviLamina 26.51.7    # another LeviLamina line (the default is the newest)
 ```
 
-One code base builds both the dedicated-server mod and the client mod (`--target_type=server|client`). The mod version comes from the latest `v*` git tag.
+One code base builds both the dedicated-server mod and the client mod (`--target_type=server|client`). The mod version is the `version` in [manifest.json](manifest.json).
+
+Bedstones is also compiled against one LeviLamina line at a time, chosen with `--levilamina` (`-LeviLamina` of `tools/build.ps1`). Each supported line has a lip variant of the same name and a lock file in `locks/`, which pins the packages of that line; `tools/build.ps1` copies it to `xmake-requires.lock` (which is generated, and not tracked) before configuring:
+
+| Line | Variant | Lock file | Configure with |
+| --- | --- | --- | --- |
+| LeviLamina 26.60.x (Minecraft 1.26.60) | `26_60` | `locks/26_60.lock` | `--levilamina=26.60.6` (the default) |
+| LeviLamina 26.51.x (Minecraft 1.26.51) | `26_51` | `locks/26_51.lock` | `--levilamina=26.51.7` |
+
+If you configure with `xmake f` yourself, copy the line's lock file to `xmake-requires.lock` first; otherwise the packages are resolved unpinned (configuring warns when there is no `xmake-requires.lock`), and the generated lock stays until you replace it.
+
+The build defines `BS_LL_VERSION` as the line it is building for (`2651`, `2660`). Where a LeviLamina API differs between lines, guard both paths with it rather than dropping the older one, and keep the guard as small as possible:
+
+```cpp
+#if BS_LL_VERSION >= 2660
+    // 26.60 and later
+#else
+    // 26.51
+#endif
+```
+
+To add a line, add its row above: a `locks/<variant>.lock` (configure once with the new `--levilamina` and copy the generated `xmake-requires.lock`), a variant in `lip.toml`, a matrix entry in `.github/workflows/build.yml` and `.github/workflows/release.yml`, and its files in the release step of `release.yml`.
 
 ### Tests
 
@@ -70,12 +92,14 @@ One code base builds both the dedicated-server mod and the client mod (`--target
 
 ## Releasing (maintainers)
 
-1. In [CHANGELOG.md](CHANGELOG.md), move the *Unreleased* entries under a new `## [x.y.z] - YYYY-MM-DD` section and update the links at the bottom. Set `version` in [tooth.json](tooth.json) to `x.y.z`.
+1. In [CHANGELOG.md](CHANGELOG.md), move the *Unreleased* entries under a new `## [x.y.z] - YYYY-MM-DD` section and update the links at the bottom. Set `version` in [lip.toml](lip.toml) and in [manifest.json](manifest.json) to `x.y.z`, and commit it as `Release x.y.z`.
 2. Merge that into `main`. Then run every server and client e2e scenario against `main`.
 3. Tag the merge commit `vx.y.z` and push the tag. The *Release* workflow:
-   - builds both platforms and runs the unit tests;
-   - checks that the mod manifest and `tooth.json` carry the tag's version;
-   - publishes `bedstones-server-windows-x64.zip` and `bedstones-client-windows-x64.zip`, with that version's CHANGELOG section as the release notes.
+   - builds both platforms for every supported LeviLamina line and runs the unit tests;
+   - checks that the mod manifest and `lip.toml` carry the tag's version;
+   - publishes `bedstones-<server|client>-win-x64-ll<line>.zip` for every line, packed the way lip's `mcmod` asset wants it (`manifest.json` at the root of the zip), with that version's CHANGELOG section as the release notes. A version with a `-` in it, such as `0.2.0-beta.1`, is published as a prerelease.
+
+The behavior and resource packs only carry `[major, minor, patch]`, so a prerelease and the release after it (`0.2.0-beta.1` and `0.2.0`) give the packs the same version. Clients cache a server's resource pack by uuid and version, so a client that joined a server running the prerelease could keep its old textures. If the packs changed since the last prerelease, release the next patch version instead (`0.2.1`, not `0.2.0`).
 
 ## License
 

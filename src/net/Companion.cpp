@@ -81,9 +81,9 @@ Player* senderOf(NetworkIdentifier const& source, NetEventCallback& callback, Su
 
 // ---- handshake ----------------------------------------------------------------------------------
 
-class HelloHandler : public ll::network::PacketHandlerBase<HelloHandler, HelloPacket> {
+class HelloHandler : public bs::net::PacketHandler<HelloHandler, HelloPacket> {
 public:
-    void handlePacket(NetworkIdentifier const& source, NetEventCallback& callback, HelloPacket const& packet) const {
+    void onPacket(NetworkIdentifier const& source, NetEventCallback& callback, HelloPacket const& packet) const {
         auto* player = senderOf(source, callback, packet.mSenderSubId);
         if (!player) return;
         if (!packet.valid()) {
