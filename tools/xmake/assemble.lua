@@ -12,13 +12,16 @@
 -- Empty merges write nothing (an empty Lua table would be saved as a JSON array).
 -- Everything else under assets/pack/{bp,rp} is copied as is (directories ending in ".d" are skipped).
 -- "${version}" in pack manifests is replaced by the mod version as a JSON array [major, minor, patch].
+-- The mod version is the "version" in the root manifest.json.
 
 import("core.base.json")
 
-local function mod_version()
-    local tag = try { function () return os.iorun("git describe --tags --abbrev=0 --always") end }
-    local major, minor, patch = (tag or ""):match("v(%d+)%.(%d+)%.(%d+)")
-    return tonumber(major) or 0, tonumber(minor) or 0, tonumber(patch) or 0
+-- The mod version is the "version" of manifest.json (the same as lip.toml's). Packs only take
+-- [major, minor, patch], so a prerelease suffix such as "-beta.1" is dropped for them.
+local function mod_version(projectdir)
+    local version = json.loadfile(path.join(projectdir, "manifest.json")).version or ""
+    local major, minor, patch = version:match("^(%d+)%.(%d+)%.(%d+)")
+    return version, tonumber(major) or 0, tonumber(minor) or 0, tonumber(patch) or 0
 end
 
 local function merge_json_fragments(dir, what)
@@ -140,12 +143,12 @@ function main(target, target_type)
     os.cp(targetfile, path.join(outdir, path.filename(targetfile)))
     local pdb = path.join(path.directory(targetfile), path.basename(targetfile) .. ".pdb")
     if os.isfile(pdb) then os.cp(pdb, path.join(outdir, path.basename(targetfile) .. ".pdb")) end
-    local major, minor, patch = mod_version()
+    local modversion, major, minor, patch = mod_version(projectdir)
     local manifest = io.readfile(path.join(projectdir, "manifest.json"))
     local vars = {
         modName = "Bedstones",
         modFile = path.filename(targetfile),
-        modVersion = string.format("%d.%d.%d", major, minor, patch),
+        modVersion = modversion,
         modPlatform = target_type,
     }
     manifest = manifest:gsub("%${(.-)}", function (k) return vars[k] or ("${" .. k .. "}") end)

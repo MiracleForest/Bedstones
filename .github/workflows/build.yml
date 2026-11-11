@@ -12,11 +12,17 @@ jobs:
       fail-fast: false
       matrix:
         target_type: [server, client]
+        # One build per supported LeviLamina line; the lip variant has the same name.
+        variant: ["26_60", "26_51"]
+        include:
+          - variant: "26_60"
+            levilamina: 26.60.6
+          - variant: "26_51"
+            levilamina: 26.51.7
+    name: build (${{ matrix.target_type }}, LeviLamina ${{ matrix.levilamina }})
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0 # the mod version comes from the latest tag
 
       - uses: xmake-io/github-action-setup-xmake@v1
 
@@ -24,9 +30,9 @@ jobs:
         with:
           path: |
             ~/AppData/Local/.xmake
-          key: xmake-${{ matrix.target_type }}-${{ hashFiles('xmake.lua', 'xmake-requires.lock') }}
+          key: xmake-${{ matrix.variant }}-${{ matrix.target_type }}-${{ hashFiles('xmake.lua', 'locks/*.lock') }}
           restore-keys: |
-            xmake-${{ matrix.target_type }}-
+            xmake-${{ matrix.variant }}-${{ matrix.target_type }}-
 
       # The action's release lookup fails intermittently on the runners ("GitHub release for
       # LLVM 22 was not found"); retry once before failing the job.
@@ -49,7 +55,8 @@ jobs:
 
       - name: Build
         shell: pwsh
-        run: pwsh tools/build.ps1 -Target ${{ matrix.target_type }}
+        # Also pins the packages of the line: copies locks/<variant>.lock over xmake-requires.lock.
+        run: pwsh tools/build.ps1 -Target ${{ matrix.target_type }} -LeviLamina ${{ matrix.levilamina }}
 
       - name: Dump xmake package install logs
         if: failure()
@@ -66,6 +73,6 @@ jobs:
 
       - uses: actions/upload-artifact@v7
         with:
-          name: ${{ github.event.repository.name }}-${{ github.sha }}-${{ matrix.target_type }}-windows-x64
+          name: ${{ github.event.repository.name }}-${{ github.sha }}-${{ matrix.target_type }}-win-x64-ll${{ matrix.variant }}
           path: |
             bin/${{ matrix.target_type }}/Bedstones/

@@ -10,11 +10,15 @@
 
 class ItemStack;
 class Player;
+struct ItemTag;
 
 namespace bs::game {
 
 /// Item id of a stack ("" when empty), e.g. "bedstones:warp_scroll".
 [[nodiscard]] std::string idOf(ItemStack const& stack);
+
+/// The stack holds an item that has `tag`, e.g. minecraft:is_pickaxe.
+[[nodiscard]] bool hasTag(ItemStack const& stack, ItemTag const& tag);
 
 /// A plain stack of `id` (no NBT). Empty if the id is unknown. `count` is clamped to 1..255.
 [[nodiscard]] ItemStack makeItem(std::string_view id, int count = 1, int aux = 0);

@@ -133,7 +133,7 @@ BlockPos above(BlockPos const& p) { return BlockPos{p.x, p.y + 1, p.z}; }
 
 bool isPickaxe(ItemStack const& item) {
     if (item.isNull()) return false;
-    if (item.hasTag(VanillaItemTags::Pickaxe())) return true;
+    if (game::hasTag(item, VanillaItemTags::Pickaxe())) return true;
     return game::idOf(item).ends_with("_pickaxe");
 }
 
@@ -285,6 +285,19 @@ bool isWaystoneId(std::string_view fullId) {
 
 bool isWaystoneBlock(Block const& block) { return isWaystoneId(block.getTypeName()); }
 
+/// No entity that blocks building (a mob or a player, not a dropped item) is in `box`.
+static bool unobstructedByEntities(BlockSource& region, AABB const& box) {
+#if BS_LL_VERSION >= 2660
+    // BlockSource::isUnobstructedByEntities is gone from 26.60; do what it did.
+    for (Actor* actor : region.fetchEntities(nullptr, box, true, false)) {
+        if (!actor->mRemoved && actor->mBlocksBuilding) return false;
+    }
+    return true;
+#else
+    return region.isUnobstructedByEntities(box, nullptr);
+#endif
+}
+
 Placed place(Player& player, BlockSource& region, BlockPos const& pos, ItemStack const& item, std::optional<int> facing, bool openEdit) {
     Placed out;
     auto   id = game::idOf(item);
@@ -296,10 +309,10 @@ Placed place(Player& player, BlockSource& region, BlockPos const& pos, ItemStack
     if (!ws.available()) return out;
     auto up = above(pos);
     if (!game::replaceable(region, pos) || !game::replaceable(region, up)
-        || !region.isUnobstructedByEntities(
+        || !unobstructedByEntities(
+            region,
             AABB(Vec3{static_cast<float>(pos.x), static_cast<float>(pos.y), static_cast<float>(pos.z)},
-                 Vec3{static_cast<float>(pos.x + 1), static_cast<float>(pos.y + 2), static_cast<float>(pos.z + 1)}),
-            nullptr
+                 Vec3{static_cast<float>(pos.x + 1), static_cast<float>(pos.y + 2), static_cast<float>(pos.z + 1)})
         )) {
         out.result = PlaceResult::NoRoom;
         return out;

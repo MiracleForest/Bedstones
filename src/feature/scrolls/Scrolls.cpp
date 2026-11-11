@@ -17,6 +17,7 @@
 #include "mc/legacy/ActorUniqueID.h"
 #include "mc/world/actor/player/Inventory.h"
 #include "mc/world/actor/player/Player.h"
+#include "mc/world/item/HandSlot.h"
 #include "mc/world/item/Item.h"
 #include "mc/world/item/ItemStack.h"
 #include "mc/world/level/BlockPos.h"
@@ -323,7 +324,14 @@ bool startCharge(Player& p, int hand) {
     charges()[keyOf(p)] = c;
     // Players without a client-side use (simulated players) still need the use state the charge
     // checks; real clients enter it themselves right after this event.
-    if (!usingItem(p)) p.startUsingItem(stack, 72000);
+    if (!usingItem(p)) {
+#if BS_LL_VERSION >= 2660
+        // 26.60 takes the hand the item is used from (0 = main hand, 1 = off hand).
+        p.startUsingItem(stack, 72000, hand == 1 ? HandSlot::Offhand : HandSlot::Mainhand);
+#else
+        p.startUsingItem(stack, 72000);
+#endif
+    }
     log().info("scroll charging: {} by {} ({} ticks)", c.itemId, p.getRealName(), duration);
     return true;
 }

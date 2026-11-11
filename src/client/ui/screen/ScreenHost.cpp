@@ -191,7 +191,8 @@ bool owns(UIScene const* scene) { return gScene.scene && gScene.scene.get() == s
 ISceneStack* sceneStack() {
     auto* client = currentClient();
     if (!client) return nullptr;
-    return client->getSceneFactory().getCurrentSceneStack().get();
+    // ClientInstance has the accessor on every supported line; SceneFactory lost it in 26.60.
+    return client->getCurrentSceneStack().get();
 }
 
 /// The scene went away. `byPlayer`: Esc handled natively or the game dropped it: close the screen.
@@ -220,7 +221,7 @@ void pushScene() {
     gScene.retired  = std::move(retired);
     gScene.scene    = std::move(scene);
     gScene.openedAt = Clock::now();
-    client->getSceneFactory().getCurrentSceneStack()->pushScreen(gScene.scene, false);
+    client->getCurrentSceneStack()->pushScreen(gScene.scene, false);
 }
 
 /// Per-frame: push the scene for a new screen, pop it when the screen is gone.

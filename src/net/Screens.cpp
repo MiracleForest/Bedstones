@@ -48,9 +48,9 @@ void simulateClientMessage(Player& player, std::string_view channel, nlohmann::j
     }
 }
 
-class ClientMessageHandlerImpl : public ll::network::PacketHandlerBase<ClientMessageHandlerImpl, ClientMessagePacket> {
+class ClientMessageHandlerImpl : public bs::net::PacketHandler<ClientMessageHandlerImpl, ClientMessagePacket> {
 public:
-    void handlePacket(NetworkIdentifier const& source, NetEventCallback& callback, ClientMessagePacket const& packet) const {
+    void onPacket(NetworkIdentifier const& source, NetEventCallback& callback, ClientMessagePacket const& packet) const {
         auto* player = senderOf(source, callback, packet.mSenderSubId);
         if (!player || !packet.valid() || !hasCompanion(*player)) return;
         auto channel = packet.body.value("channel", std::string{});
@@ -164,9 +164,9 @@ void simulateAction(Player& player, std::string const& action, nlohmann::json co
     dispatch(player, *s, action, args);
 }
 
-class ScreenActionHandler : public ll::network::PacketHandlerBase<ScreenActionHandler, ScreenActionPacket> {
+class ScreenActionHandler : public bs::net::PacketHandler<ScreenActionHandler, ScreenActionPacket> {
 public:
-    void handlePacket(NetworkIdentifier const& source, NetEventCallback& callback, ScreenActionPacket const& packet) const {
+    void onPacket(NetworkIdentifier const& source, NetEventCallback& callback, ScreenActionPacket const& packet) const {
         auto* player = senderOf(source, callback, packet.mSenderSubId);
         if (!player || !packet.valid()) return;
         auto* s = current(*player);

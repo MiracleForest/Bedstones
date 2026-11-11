@@ -45,6 +45,11 @@ inline constexpr std::uint64_t kMaxClientBody = 16u * 1024u;
 template <class Derived, std::uint64_t MaxBody = kMaxBody>
 class JsonPacket : public ll::network::PacketBase<Derived> {
 public:
+    // LeviLamina 26.60 disconnects a peer that lacks a packet unless the packet is optional.
+    // Bedstones works with a vanilla client and with the client mod on a server without it, so
+    // every companion packet is optional. Earlier lines ignore this.
+    static constexpr bool Optional{true};
+
     int            version = kProtocolVersion;
     nlohmann::json body    = nlohmann::json::object();
 
@@ -96,6 +101,29 @@ class ScreenClosePacket : public JsonPacket<ScreenClosePacket> {
 };
 class ServerMessagePacket : public JsonPacket<ServerMessagePacket> {
     using JsonPacket::JsonPacket;
+};
+
+/// Base of the companion packet handlers. A handler defines
+///   void onPacket(NetworkIdentifier const&, NetEventCallback&, PacketType const&) const;
+/// which this adapts to the handlePacket signature of the LeviLamina line being built: 26.60
+/// also passes the side that received the packet, which the handlers tell from the callback.
+template <class Derived, class PacketType>
+class PacketHandler : public ll::network::PacketHandlerBase<Derived, PacketType> {
+public:
+#if BS_LL_VERSION >= 2660
+    void handlePacket(
+        NetworkIdentifier const& source,
+        NetEventCallback&        callback,
+        ll::network::PacketSide,
+        PacketType const& packet
+    ) const {
+        static_cast<Derived const*>(this)->onPacket(source, callback, packet);
+    }
+#else
+    void handlePacket(NetworkIdentifier const& source, NetEventCallback& callback, PacketType const& packet) const {
+        static_cast<Derived const*>(this)->onPacket(source, callback, packet);
+    }
+#endif
 };
 
 /// Mod version string sent in the handshake.

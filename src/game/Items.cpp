@@ -8,8 +8,18 @@
 #include "mc/world/actor/player/Player.h"
 #include "mc/world/item/Item.h"
 #include "mc/world/item/ItemStack.h"
+#include "mc/world/item/ItemTag.h"
 
 namespace bs::game {
+
+bool hasTag(ItemStack const& stack, ItemTag const& tag) {
+#if BS_LL_VERSION >= 2660
+    // ItemStackBase::hasTag is gone from 26.60; the tags belong to the item.
+    return !stack.isNull() && stack.mItem && stack.mItem->hasTag(tag);
+#else
+    return stack.hasTag(tag);
+#endif
+}
 
 std::string idOf(ItemStack const& stack) {
     if (stack.isNull()) return {};

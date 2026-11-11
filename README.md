@@ -22,21 +22,30 @@ Waystones for Minecraft Bedrock. Build a waystone wherever you like to come back
 
 ## Install
 
-You need Minecraft Bedrock Edition **1.26.51** for Windows (x64) with LeviLamina **26.51.x** (on a client, installed through [LeviLauncher](https://github.com/LiteLDev/LeviLauncher)).
+You need Minecraft Bedrock Edition for Windows (x64) or the Bedrock Dedicated Server with LeviLamina (on a client, installed through [LeviLauncher](https://github.com/LiteLDev/LeviLauncher)). A Bedstones release is built against each LeviLamina line it supports, and you pick the one that matches your game:
 
-With [lip](https://github.com/LiteLDev/lip):
+| Minecraft | LeviLamina | Variant |
+| --- | --- | --- |
+| 1.26.60 | 26.60.x | `26_60`, and the default |
+| 1.26.51 | 26.51.x | `26_51` |
+
+In LeviLauncher, install Bedstones from the **LeviMC Mods** page; it offers the variants above, and the default is the newest line.
+
+With [lip](https://github.com/LiteLDev/lip) 0.40.0 or later, on a dedicated server or a client alike:
 
 ```sh
-lip install github.com/MiracleForest/Bedstones           # dedicated server
-lip install github.com/MiracleForest/Bedstones#client    # client
+lip install github.com/MiracleForest/Bedstones           # the newest line (26.60)
+lip install github.com/MiracleForest/Bedstones#26_51     # Minecraft 1.26.51
 ```
 
-Or download the zip from the [latest release](https://github.com/MiracleForest/Bedstones/releases/latest) and extract it next to `LeviLamina/`:
+Or download the zip for your line and side from the [latest release](https://github.com/MiracleForest/Bedstones/releases/latest) and extract it into a `Bedstones` folder next to `LeviLamina/`, so that `Bedstones/manifest.json` exists:
 
 | Where | Zip | Folder |
 | --- | --- | --- |
-| Dedicated server | `bedstones-server-windows-x64.zip` | `plugins/Bedstones/` |
-| Client (LeviLauncher) | `bedstones-client-windows-x64.zip` | `mods/Bedstones/` |
+| Dedicated server, LeviLamina 26.60 | `bedstones-server-win-x64-ll26.60.zip` | `mods/Bedstones/` |
+| Client (LeviLauncher), LeviLamina 26.60 | `bedstones-client-win-x64-ll26.60.zip` | `mods/Bedstones/` |
+| Dedicated server, LeviLamina 26.51 | `bedstones-server-win-x64-ll26.51.zip` | `plugins/Bedstones/` |
+| Client (LeviLauncher), LeviLamina 26.51 | `bedstones-client-win-x64-ll26.51.zip` | `mods/Bedstones/` |
 
 - **On a server**, only the server needs Bedstones. Players download its textures when they join, and anyone can play, with or without the client mod. Players without it get the same menus as simple forms.
 - **The client mod** plays single-player worlds by itself. On a server that runs Bedstones, it draws the real Waystones screens instead of forms.
@@ -91,7 +100,7 @@ Waystones and warp plates hold up to 4 **warp modifiers** that affect whoever ar
 
 ## Settings
 
-The settings are JSON files in the mod's `config/` folder (`plugins/Bedstones/config/` on a server, `mods/Bedstones/config/` on a client), with Waystones' option names. Run `/waystones reload` after editing.
+The settings are JSON files in the mod's `config/` folder (`mods/Bedstones/config/`, or `plugins/Bedstones/config/` on a LeviLamina 26.51 server), with Waystones' option names. Run `/waystones reload` after editing.
 
 | File | What you can change |
 | --- | --- |

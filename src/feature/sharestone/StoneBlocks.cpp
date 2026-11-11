@@ -110,7 +110,7 @@ bool breakDrops(Player const& player, ItemStack const& tool) {
     if (player.isCreative()) return false;
     if (tool.isNull()) return false;
     ItemTag pickaxe{HashedString("minecraft:is_pickaxe")};
-    return tool.hasTag(pickaxe);
+    return game::hasTag(tool, pickaxe);
 }
 
 // ---- the module --------------------------------------------------------------------------------

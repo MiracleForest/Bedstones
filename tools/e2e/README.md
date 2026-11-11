@@ -11,6 +11,8 @@ There are two harnesses, one per LeviLamina platform. Both run the real game bin
 | Speed | ~20 s plus the tests | ~2 min plus the tests |
 | Output | `server/out/<scenario>/` `server.log`, `selftest.json` | `client/out/<scenario>/` `*.png`, `client.log`, `selftest.json` |
 
+Both default to the LeviLamina 26.51 line. Run the scenarios once per supported line, against that line's build of Bedstones (`tools/build.ps1 -LeviLamina <version>`): `server/install.ps1 -Version <version> -Force` installs another LeviLamina for the server, and `$env:BS_E2E_CLIENT_VERSION` names another LeviLauncher instance (for example a `1.26.60` one) for the client.
+
 Prefer the **server** harness for logic: it is fast, headless and parallel, and the selftests can spawn SimulatedPlayers there. Use the **client** for UI, rendering and anything that needs a real player. Both exit `0` on pass and `1` on fail.
 
 ```powershell
