@@ -13,9 +13,11 @@ logo = "https://raw.githubusercontent.com/MiracleForest/Bedstones/main/docs/logo
 # (Minecraft 1.26.60). Variant names may only hold [a-z0-9_], hence 26_60 and not 26.60.
 # Each line has a server entry (the dedicated server) and a client entry (LeviLauncher).
 #
-# The default variant is the newest line on both sides. The variant "client", which is the one
-# LeviLauncher reaches for first and the one earlier releases of Bedstones were installed as on a
-# client, is the newest line's client entry.
+# The default variant is the newest line on both sides. There is no "client" variant: lip and
+# LeviLauncher pick the server or the client entry of a variant by the side they install on.
+#
+# LeviLamina's releases are still tooth.json packages, whose client build is their "client"
+# variant, so the client entries depend on github.com/LiteLDev/LeviLamina#client.
 
 # --- 26.60 (Minecraft 1.26.60) ------------------------------------------------------------------
 
@@ -40,18 +42,6 @@ preserve = ["mods/Bedstones/config/"]
 "github.com/LiteLDev/LeviLamina#client" = "26.60.*"
 
 [[variants."".assets]]
-type = "mcmod"
-urls = ["https://{{id}}/releases/download/v{{version}}/bedstones-client-win-x64-ll26.60.zip"]
-
-[[variants.client]]
-side = "client"
-platform = "win-x64"
-preserve = ["mods/Bedstones/config/"]
-
-[variants.client.deps]
-"github.com/LiteLDev/LeviLamina#client" = "26.60.*"
-
-[[variants.client.assets]]
 type = "mcmod"
 urls = ["https://{{id}}/releases/download/v{{version}}/bedstones-client-win-x64-ll26.60.zip"]
 

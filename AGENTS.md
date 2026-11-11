@@ -7,7 +7,7 @@ base, two builds (`--target_type=server|client`) for every supported LeviLamina 
 
 | Line | Minecraft | lip variant | Built against | Lock file |
 | --- | --- | --- | --- | --- |
-| 26.60.x | 1.26.60 | `26_60`, the default, and `client` (client entry) | `--levilamina=26.60.6` (the default) | `locks/26_60.lock` |
+| 26.60.x | 1.26.60 | `26_60`, and the default | `--levilamina=26.60.6` (the default) | `locks/26_60.lock` |
 | 26.51.x | 1.26.51 | `26_51` | `--levilamina=26.51.7` | `locks/26_51.lock` |
 
 `--levilamina` (`tools/build.ps1 -LeviLamina`) picks the line; the build defines `BS_LL_VERSION`
