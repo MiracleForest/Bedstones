@@ -99,21 +99,29 @@ target("Bedstones")
     end
     -- xmake-requires.lock is not tracked: tools/build.ps1 copies locks/<line>.lock over it. A plain
     -- `xmake` run without that copy resolves the packages unpinned, so say so. xmake adds entries
-    -- to the lock (the server build's packages), so only the pinned levilamina entry is compared.
+    -- to the lock as it resolves, so only look for the pinned levilamina entry of the line's lock.
     on_config(function (target)
         import("core.project.config")
         local major, minor = (config.get("levilamina") or ""):match("^(%d+)%.(%d+)%.")
         local wanted = path.join(os.projectdir(), "locks", string.format("%s_%s.lock", major, minor))
         local lockfile = path.join(os.projectdir(), "xmake-requires.lock")
-        local function pinned(file)
-            if not os.isfile(file) then return nil end
-            return io.readfile(file):match('%["(levilamina [^"#]+)#[^"]*"%]%s*=%s*{%s*repo%s*=%s*{%s*commit%s*=%s*"(%x+)"')
+        local entry = '%["(levilamina [^"]+)"%]%s*=%s*{%s*repo%s*=%s*{%s*commit%s*=%s*"(%x+)"'
+        local key, commit
+        if os.isfile(wanted) then
+            key, commit = io.readfile(wanted):match(entry)
         end
-        local want_pkg, want_commit = pinned(wanted)
-        local have_pkg, have_commit = pinned(lockfile)
-        if not want_pkg then
+        local pinned = false
+        if key and os.isfile(lockfile) then
+            local have = io.readfile(lockfile)
+            local at = have:find('["' .. key .. '"]', 1, true)
+            if at then
+                local _, have_commit = have:match(entry, at)
+                pinned = have_commit == commit
+            end
+        end
+        if not key then
             cprint("${color.warning}warning: no lock file %s for LeviLamina %s; packages are not pinned", wanted, config.get("levilamina"))
-        elseif have_pkg ~= want_pkg or have_commit ~= want_commit then
+        elseif not pinned then
             cprint("${color.warning}warning: xmake-requires.lock is not %s; packages may not be the pinned ones. Run tools/build.ps1, or copy that file to xmake-requires.lock and configure again", path.relative(wanted, os.projectdir()))
         end
     end)
