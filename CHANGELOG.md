@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0-beta.1] - 2026-11-11
+
+First beta of 0.2.0. Please report anything that behaves differently from 0.1.2.
+
 ### Added
 
 - Support for **Minecraft 1.26.60** with LeviLamina 26.60.x, on the dedicated server and on the client, which is now the version Bedstones is installed as by default. Minecraft 1.26.51 with LeviLamina 26.51.x is still supported and gets its own builds of every release, so nothing is lost by updating.
@@ -86,7 +90,8 @@ First release. Bedstones brings the behaviour of the Java mod Waystones 21.1.46 
 - **Translations**: English and Simplified Chinese.
 - **Resource pack on servers**: a dedicated server adds the behavior pack and resource pack to the world, and joining players download the textures.
 
-[Unreleased]: https://github.com/MiracleForest/Bedstones/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/MiracleForest/Bedstones/compare/v0.2.0-beta.1...HEAD
+[0.2.0-beta.1]: https://github.com/MiracleForest/Bedstones/compare/v0.1.2...v0.2.0-beta.1
 [0.1.2]: https://github.com/MiracleForest/Bedstones/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/MiracleForest/Bedstones/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/MiracleForest/Bedstones/releases/tag/v0.1.0
