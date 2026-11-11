@@ -35,6 +35,11 @@ end
 local ll_code = tonumber(ll_major) * 100 + tonumber(ll_minor)
 
 add_requires("levilamina " .. ll_version, {configs = {target_type = get_config("target_type")}})
+-- xmake-requires.lock is not tracked: tools/build.ps1 copies locks/<line>.lock over it. Without
+-- it, xmake resolves the packages unpinned (and writes a new xmake-requires.lock), so say so.
+if not os.isfile(path.join(os.projectdir(), "xmake-requires.lock")) then
+    print(string.format("warning: no xmake-requires.lock, so packages are not pinned; copy locks/%s_%s.lock to xmake-requires.lock first, or use tools/build.ps1", ll_major, ll_minor))
+end
 add_requires("levibuildscript")
 add_requires("nlohmann_json v3.12.0")
 if has_config("tests") then
@@ -97,34 +102,6 @@ target("Bedstones")
     else
         add_defines("BS_SERVER=1")
     end
-    -- xmake-requires.lock is not tracked: tools/build.ps1 copies locks/<line>.lock over it. A plain
-    -- `xmake` run without that copy resolves the packages unpinned, so say so. xmake adds entries
-    -- to the lock as it resolves, so only look for the pinned levilamina entry of the line's lock.
-    on_config(function (target)
-        import("core.project.config")
-        local major, minor = (config.get("levilamina") or ""):match("^(%d+)%.(%d+)%.")
-        local wanted = path.join(os.projectdir(), "locks", string.format("%s_%s.lock", major, minor))
-        local lockfile = path.join(os.projectdir(), "xmake-requires.lock")
-        local entry = '%["(levilamina [^"]+)"%]%s*=%s*{%s*repo%s*=%s*{%s*commit%s*=%s*"(%x+)"'
-        local key, commit
-        if os.isfile(wanted) then
-            key, commit = io.readfile(wanted):match(entry)
-        end
-        local pinned = false
-        if key and os.isfile(lockfile) then
-            local have = io.readfile(lockfile)
-            local at = have:find('["' .. key .. '"]', 1, true)
-            if at then
-                local _, have_commit = have:match(entry, at)
-                pinned = have_commit == commit
-            end
-        end
-        if not key then
-            cprint("${color.warning}warning: no lock file %s for LeviLamina %s; packages are not pinned", wanted, config.get("levilamina"))
-        elseif not pinned then
-            cprint("${color.warning}warning: xmake-requires.lock is not %s; packages may not be the pinned ones. Run tools/build.ps1, or copy that file to xmake-requires.lock and configure again", path.relative(wanted, os.projectdir()))
-        end
-    end)
     -- Assemble bin/<target_type>/Bedstones/{dll,pdb,manifest.json,lang/,packs/}.
     after_build(function (target)
         import("core.project.config")

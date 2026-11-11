@@ -53,7 +53,7 @@ Bedstones is also compiled against one LeviLamina line at a time, chosen with `-
 | LeviLamina 26.60.x (Minecraft 1.26.60) | `26_60` | `locks/26_60.lock` | `--levilamina=26.60.6` (the default) |
 | LeviLamina 26.51.x (Minecraft 1.26.51) | `26_51` | `locks/26_51.lock` | `--levilamina=26.51.7` |
 
-If you configure with `xmake f` yourself, copy the line's lock file to `xmake-requires.lock` first; otherwise the packages are resolved unpinned, and the build warns that `xmake-requires.lock` is not the line's lock file.
+If you configure with `xmake f` yourself, copy the line's lock file to `xmake-requires.lock` first; otherwise the packages are resolved unpinned (configuring warns when there is no `xmake-requires.lock`), and the generated lock stays until you replace it.
 
 The build defines `BS_LL_VERSION` as the line it is building for (`2651`, `2660`). Where a LeviLamina API differs between lines, guard both paths with it rather than dropping the older one, and keep the guard as small as possible:
 
