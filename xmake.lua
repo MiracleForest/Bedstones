@@ -98,19 +98,22 @@ target("Bedstones")
         add_defines("BS_SERVER=1")
     end
     -- xmake-requires.lock is not tracked: tools/build.ps1 copies locks/<line>.lock over it. A plain
-    -- `xmake` run without that copy resolves the packages unpinned, so say so.
+    -- `xmake` run without that copy resolves the packages unpinned, so say so. xmake adds entries
+    -- to the lock (the server build's packages), so only the pinned levilamina entry is compared.
     on_config(function (target)
         import("core.project.config")
         local major, minor = (config.get("levilamina") or ""):match("^(%d+)%.(%d+)%.")
         local wanted = path.join(os.projectdir(), "locks", string.format("%s_%s.lock", major, minor))
         local lockfile = path.join(os.projectdir(), "xmake-requires.lock")
-        local function load(file)
-            return os.isfile(file) and io.readfile(file):gsub("\r", "") or nil
+        local function pinned(file)
+            if not os.isfile(file) then return nil end
+            return io.readfile(file):match('%["(levilamina [^"#]+)#[^"]*"%]%s*=%s*{%s*repo%s*=%s*{%s*commit%s*=%s*"(%x+)"')
         end
-        local want, have = load(wanted), load(lockfile)
-        if not want then
+        local want_pkg, want_commit = pinned(wanted)
+        local have_pkg, have_commit = pinned(lockfile)
+        if not want_pkg then
             cprint("${color.warning}warning: no lock file %s for LeviLamina %s; packages are not pinned", wanted, config.get("levilamina"))
-        elseif have ~= want then
+        elseif have_pkg ~= want_pkg or have_commit ~= want_commit then
             cprint("${color.warning}warning: xmake-requires.lock is not %s; packages may not be the pinned ones. Run tools/build.ps1, or copy that file to xmake-requires.lock and configure again", path.relative(wanted, os.projectdir()))
         end
     end)
