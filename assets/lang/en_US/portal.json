@@ -1,0 +1,6 @@
+{
+  "chat.bedstones.warp_portal_no_space": "A Warp Portal needs more free space than there is here.",
+  "chat.bedstones.warp_portal_attunement_lost": "The portal closed: the place it led to no longer exists.",
+  "gui.bedstones.waystone_selection.return_to_portal": "Return to Portal",
+  "bs.portal.scroll_missing": "You need to hold the Portal Scroll."
+}

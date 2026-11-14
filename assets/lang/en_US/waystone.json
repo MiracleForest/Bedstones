@@ -1,0 +1,5 @@
+{
+  "chat.bedstones.waystone_activated": "Waystone activated: {}",
+  "bs.waystone.reset": "Waystone reset. It sets itself up again the next time it loads.",
+  "bs.waystone.server_uid": "UUID on the server: {}"
+}

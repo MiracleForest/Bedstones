@@ -1,0 +1,5 @@
+{
+  "bedstones.configuration.general.nameGenerationMode": "名称生成模式",
+  "bedstones.configuration.general.nameGenerationTemplate": "名称生成模板",
+  "bedstones.configuration.general.nameGenerationPresets": "名称预设"
+}

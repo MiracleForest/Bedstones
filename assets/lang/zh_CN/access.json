@@ -1,0 +1,8 @@
+{
+  "chat.bedstones.only_owner_can_edit": "这块传送石碑属于别人，你不能修改。",
+  "chat.bedstones.only_creative_can_edit": "需要创造模式才能修改这块传送石碑。",
+  "chat.bedstones.only_creative_can_edit_global": "全局传送石碑只能在创造模式下修改。",
+  "bedstones.configuration.general.restrictedWaystones": "受限的传送石碑",
+  "bedstones.configuration.general.defaultVisibility": "默认可见性",
+  "bedstones.configuration.general.allowEveryoneToManageGlobalWaystones": "让每位玩家都能管理全局传送石碑"
+}

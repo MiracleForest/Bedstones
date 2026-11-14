@@ -1,0 +1,5 @@
+{
+  "tooltip.bedstones.bound_to": "绑定至：{}",
+  "tooltip.bedstones.blank_scroll": "在传送石碑上使用它即可绑定。",
+  "chat.bedstones.scroll_not_yet_bound": "尚无传送石碑与此卷轴绑定。"
+}

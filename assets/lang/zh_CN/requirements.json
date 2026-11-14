@@ -1,0 +1,6 @@
+{
+  "tooltip.bedstones.xp_requirement": "经验消耗：{}",
+  "tooltip.bedstones.level_requirement": "等级消耗：{}",
+  "tooltip.bedstones.cooldown_requirement": "冷却：{} 秒",
+  "tooltip.bedstones.item_requirement": "物品消耗：{} {}"
+}

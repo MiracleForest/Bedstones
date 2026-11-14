@@ -1,0 +1,13 @@
+{
+  "chat.bedstones.waystone_missing": "暂时找不到目的地传送石，它可能被移动或破坏了。",
+  "chat.bedstones.cannot_transport_leashed": "拴绳牵着的生物无法随这次传送同行",
+  "chat.bedstones.cannot_transport_leashed_dimensional": "拴绳牵着的生物无法随你前往其他维度",
+  "chat.bedstones.cannot_transport_this_leashed": "这个生物无法同行",
+  "chat.bedstones.not_enough_xp": "你的经验不足以支付这次传送。",
+  "chat.bedstones.teleport_no_longer_valid": "传送在完成之前被取消了。",
+  "chat.bedstones.source_item_missing": "传送物品离开了你的手，传送已中止。",
+  "chat.bedstones.source_waystone_out_of_range": "你离开了传送石附近，传送因此中止。",
+  "chat.bedstones.teleport_failed": "传送没有成功。",
+  "chat.bedstones.destination_out_of_bounds": "目标位置位于世界边缘之外。",
+  "chat.bedstones.destination_chunk_load_failed": "目的地区域加载失败。"
+}

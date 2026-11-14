@@ -1,0 +1,21 @@
+{
+  "gui.bedstones.waystone_selection.title": "Choose where to warp",
+  "gui.bedstones.waystone_selection.admin_title": "Waystones of {}: pick one to visit",
+  "gui.bedstones.waystone_selection.current_location": "You are at: ",
+  "gui.bedstones.waystone_selection.none_activated": "Your waystone list is empty: activate one first.",
+  "gui.bedstones.waystone_selection.no_sharestones": "No other Sharestone of this kind to warp to.",
+  "gui.bedstones.waystone_selection.sort": "Sort: {}",
+  "gui.bedstones.waystone_selection.sort.manual": "Manual",
+  "gui.bedstones.waystone_selection.sort.name": "By Name",
+  "gui.bedstones.waystone_selection.sort.distance": "By Distance",
+  "gui.bedstones.waystone_selection.manage_waystones": "Manage Waystones",
+  "bs.selection.unnamed": "<unnamed>",
+  "bs.selection.edit_current": "Edit Waystone",
+  "bs.selection.tooltip.xp_cost": "Experience Cost: {}",
+  "bs.selection.tooltip.level_cost": "Level Cost: {}",
+  "bs.selection.tooltip.cooldown": "Cooldown: {} seconds",
+  "bs.selection.tooltip.item_cost": "Item Cost: {} {}",
+  "bs.selection.form.levels": "{} Levels",
+  "bs.selection.form.current": "current",
+  "bs.selection.form.edit_current": "Edit current waystone"
+}

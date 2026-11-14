@@ -1,0 +1,5 @@
+{
+  "tooltip.bedstones.bound_to": "Bound to: {}",
+  "tooltip.bedstones.blank_scroll": "Bind it by using it on a waystone.",
+  "chat.bedstones.scroll_not_yet_bound": "No waystone has been bound to this scroll yet."
+}

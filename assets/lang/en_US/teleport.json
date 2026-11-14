@@ -1,0 +1,13 @@
+{
+  "chat.bedstones.waystone_missing": "Your destination waystone can't be found right now; it may have been moved or broken.",
+  "chat.bedstones.cannot_transport_leashed": "Leashed mobs can't come along on this warp",
+  "chat.bedstones.cannot_transport_leashed_dimensional": "Leashed mobs can't come along to another dimension",
+  "chat.bedstones.cannot_transport_this_leashed": "This mob can't come along",
+  "chat.bedstones.not_enough_xp": "You lack the experience this warp costs.",
+  "chat.bedstones.teleport_no_longer_valid": "The warp was cancelled before it finished.",
+  "chat.bedstones.source_item_missing": "The warp item left your hand, so the warp stopped.",
+  "chat.bedstones.source_waystone_out_of_range": "The warp stopped because you strayed from the waystone.",
+  "chat.bedstones.teleport_failed": "Warping did not work.",
+  "chat.bedstones.destination_out_of_bounds": "The target position is beyond the edge of the world.",
+  "chat.bedstones.destination_chunk_load_failed": "Loading the destination area failed."
+}

@@ -1,0 +1,6 @@
+{
+  "chat.bedstones.warp_portal_no_space": "跃迁传送门需要更多空位，此处放不下。",
+  "chat.bedstones.warp_portal_attunement_lost": "传送门已关闭：它通往的地点已不复存在。",
+  "gui.bedstones.waystone_selection.return_to_portal": "返回传送门",
+  "bs.portal.scroll_missing": "你需要手持传送门卷轴。"
+}

@@ -1,0 +1,5 @@
+{
+  "bedstones.configuration.general.nameGenerationMode": "Name generation mode",
+  "bedstones.configuration.general.nameGenerationTemplate": "Name generation template",
+  "bedstones.configuration.general.nameGenerationPresets": "Name generation presets"
+}

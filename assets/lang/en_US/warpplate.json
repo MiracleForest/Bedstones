@@ -1,0 +1,7 @@
+{
+  "chat.bedstones.warp_plate_has_no_target": "No other warp plate is linked to this one yet.",
+  "chat.bedstones.warp_plate_has_invalid_target": "The shard in this warp plate no longer points anywhere.",
+  "tooltip.bedstones.attuned_shard.plug_into_warp_plate": "Place it in a warp plate.",
+  "tooltip.bedstones.attuned_shard.attunement_crumbling": "Used up by the next warp.",
+  "tooltip.bedstones.attuned_shard.attunement_lost": "Its attunement is gone."
+}

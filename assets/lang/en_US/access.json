@@ -1,0 +1,8 @@
+{
+  "chat.bedstones.only_owner_can_edit": "This waystone belongs to someone else, so you can't change it.",
+  "chat.bedstones.only_creative_can_edit": "You need to be in creative mode to change this waystone.",
+  "chat.bedstones.only_creative_can_edit_global": "Global waystones can only be changed in creative mode.",
+  "bedstones.configuration.general.restrictedWaystones": "Restricted waystones",
+  "bedstones.configuration.general.defaultVisibility": "Default visibility",
+  "bedstones.configuration.general.allowEveryoneToManageGlobalWaystones": "Let every player manage global waystones"
+}

@@ -1,0 +1,5 @@
+{
+  "chat.bedstones.waystone_activated": "传送石碑已激活：{}",
+  "bs.waystone.reset": "传送石碑已重置，下次加载时会重新设置自己。",
+  "bs.waystone.server_uid": "服务端上的 UUID：{}"
+}

@@ -1,0 +1,78 @@
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        target_type: [server, client]
+        # One build per supported LeviLamina line; the lip variant has the same name.
+        variant: ["26_60", "26_51"]
+        include:
+          - variant: "26_60"
+            levilamina: 26.60.6
+          - variant: "26_51"
+            levilamina: 26.51.7
+    name: build (${{ matrix.target_type }}, LeviLamina ${{ matrix.levilamina }})
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: xmake-io/github-action-setup-xmake@v1
+
+      - uses: actions/cache@v6
+        with:
+          path: |
+            ~/AppData/Local/.xmake
+          key: xmake-${{ matrix.variant }}-${{ matrix.target_type }}-${{ hashFiles('xmake.lua', 'locks/*.lock') }}
+          restore-keys: |
+            xmake-${{ matrix.variant }}-${{ matrix.target_type }}-
+
+      # The action's release lookup fails intermittently on the runners ("GitHub release for
+      # LLVM 22 was not found"); retry once before failing the job.
+      - name: Setup LLVM
+        id: llvm
+        continue-on-error: true
+        uses: ZhongRuoyu/setup-llvm@v0
+        with:
+          llvm-version: 22
+
+      - name: Setup LLVM (retry)
+        if: steps.llvm.outcome == 'failure'
+        uses: ZhongRuoyu/setup-llvm@v0
+        with:
+          llvm-version: 22
+
+      - run: git config --global core.longpaths true
+
+      - run: xmake repo -u
+
+      - name: Build
+        shell: pwsh
+        # Also pins the packages of the line: copies locks/<variant>.lock over xmake-requires.lock.
+        run: pwsh tools/build.ps1 -Target ${{ matrix.target_type }} -LeviLamina ${{ matrix.levilamina }}
+
+      - name: Dump xmake package install logs
+        if: failure()
+        shell: pwsh
+        run: |
+          Get-ChildItem "$env:LOCALAPPDATA/.xmake/cache/packages" -Recurse -Filter install.txt -ErrorAction SilentlyContinue |
+            ForEach-Object { Write-Host "::group::$($_.FullName)"; Get-Content $_.FullName -Tail 400; Write-Host '::endgroup::' }
+
+      - name: Unit tests
+        if: matrix.target_type == 'server'
+        run: |
+          xmake build -y bs-tests
+          xmake run bs-tests
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ github.event.repository.name }}-${{ github.sha }}-${{ matrix.target_type }}-win-x64-ll${{ matrix.variant }}
+          path: |
+            bin/${{ matrix.target_type }}/Bedstones/

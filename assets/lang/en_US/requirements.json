@@ -1,0 +1,6 @@
+{
+  "tooltip.bedstones.xp_requirement": "Experience Cost: {}",
+  "tooltip.bedstones.level_requirement": "Level Cost: {}",
+  "tooltip.bedstones.cooldown_requirement": "Cooldown: {} seconds",
+  "tooltip.bedstones.item_requirement": "Item Cost: {} {}"
+}
