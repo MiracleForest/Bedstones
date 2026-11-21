@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-21
+
+### Fixed
+
+- The client entries for LeviLamina 26.60 (the default variant and `26_60`) depend on `github.com/LiteLDev/LeviLamina` 26.60.8 or later instead of `github.com/LiteLDev/LeviLamina#client`. LeviLamina 26.60.8 is a lip.toml package with no `client` variant, so the old dependency could only resolve to LeviLamina 26.60.7 or earlier: a client install could not use the newest LeviLamina 26.60, and failed on a client that already had LeviLamina 26.60.8 installed.
+
 ## [0.1.0] - 2026-11-14
 
 First release. Bedstones adds waystones, sharestones, warp plates and warp items to Minecraft: Bedrock Edition for Windows (x64). It runs on the dedicated server and on the client, with LeviLamina 26.60.x (Minecraft 1.26.60, the default variant `26_60`) or LeviLamina 26.51.x (Minecraft 1.26.51, variant `26_51`).
@@ -35,5 +41,6 @@ First release. Bedstones adds waystones, sharestones, warp plates and warp items
 - **Resource pack on servers**: a dedicated server adds the behavior pack and resource pack to the world, and joining players download the textures.
 - **Downloads** for every supported line and side, installable with [lip](https://github.com/LiteLDev/lip) 0.40.0 or later on a server and with LeviLauncher on a client: `bedstones-server-win-x64-ll26.60.zip`, `bedstones-client-win-x64-ll26.60.zip`, `bedstones-server-win-x64-ll26.51.zip` and `bedstones-client-win-x64-ll26.51.zip`.
 
-[Unreleased]: https://github.com/MiracleForest/Bedstones/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/MiracleForest/Bedstones/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/MiracleForest/Bedstones/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/MiracleForest/Bedstones/releases/tag/v0.1.0

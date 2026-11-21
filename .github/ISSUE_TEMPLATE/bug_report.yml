@@ -34,7 +34,7 @@ body:
     id: bedstones
     attributes:
       label: Bedstones version
-      placeholder: 0.1.0
+      placeholder: 0.1.1
     validations:
       required: true
   - type: input
